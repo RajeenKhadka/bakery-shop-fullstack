@@ -7,6 +7,9 @@ dotenv.config();
 //Connection to mongoose
 import db from "./db/conn.js";
 
+//Route Import
+import cakeEntries from "./routes/cake.route.js";
+
 const PORT = process.env.PORT || 5000;
 const app = express();
 
@@ -24,6 +27,9 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
   res.send("<h1>Cake Bakery Server</h1>");
 });
+
+//Endpoints
+app.use("/api/cakes", cakeEntries);
 
 //default, catch all routes
 app.get("/*", (req, res) => {
