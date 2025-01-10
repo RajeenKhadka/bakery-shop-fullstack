@@ -4,7 +4,8 @@ import logger from "morgan";
 import cors from "cors";
 dotenv.config();
 
-//Imports
+//Connection to mongoose
+import db from "./db/conn.js";
 
 const PORT = process.env.PORT || 5000;
 const app = express();
