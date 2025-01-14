@@ -1,16 +1,13 @@
-// User Schema
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+const Schema = mongoose.Schema;
+import bcrypt from "bcrypt";
+import Cart from "./Cart"; // Import Cart model to reference it
 
-const userSchema = new mongoose.Schema(
+const SALT_ROUNDS = 6;
+
+const userSchema = new Schema(
   {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-    password: {
+    name: {
       type: String,
       required: true,
     },
@@ -20,12 +17,17 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       lowercase: true,
-      validate: {
-        validator: function (v) {
-          return /^\S+@\S+\.\S+$/.test(v);
-        },
-        message: (props) => `${props.value} is not a valid email address!`,
-      },
+    },
+    password: {
+      type: String,
+      trim: true,
+      minLength: 3,
+      required: true,
+    },
+    // Add a reference to the Cart model
+    cart: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cart",
     },
   },
   {
@@ -39,12 +41,12 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Pre-save hook to hash password
 userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
-  next();
+  //"this" is the user doc
+  if (!this.isModified("password")) return next();
+  // If the password has changed, we need to update the password with the computed hashed password
+  this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
+  return next();
 });
 
 const User = mongoose.model("User", userSchema);

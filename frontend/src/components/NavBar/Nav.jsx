@@ -5,9 +5,9 @@ function Nav() {
   return (
     <header className="header">
       <nav className="nav container">
-        <a href="index.html" className="nav__logo">
+        <Link className="nav__link" to="/">
           @Maya Cake Shop
-        </a>
+        </Link>
         <div>
           <ul className="nav__list grid">
             <li className="nav__item">
@@ -26,6 +26,12 @@ function Nav() {
             <li className="nav__item">
               <Link className="nav__link" to="/order">
                 Order
+              </Link>
+            </li>
+
+            <li className="nav__item">
+              <Link className="nav__link" to="/cart">
+                Cart
               </Link>
             </li>
           </ul>
