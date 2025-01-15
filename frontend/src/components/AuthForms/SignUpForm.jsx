@@ -2,7 +2,7 @@ import { useState } from "react";
 //adding in auth, I am importing SignUp from utilities
 import { signUp } from "../../utilities/users-services.js";
 
-function SignUpForm(props) {
+function SignUpForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,9 +30,10 @@ function SignUpForm(props) {
       delete submitData.confirm;
       console.log(submitData);
       const user = await signUp(submitData);
-      props.setUser(user);
+      setError("Successful!");
     } catch (err) {
-      setError("Sign up failed - Try again");
+      console.error("Error during sign-up:", err);
+      setError(`Sign up failed - ${err.message || "Try again"}`);
     }
   };
 

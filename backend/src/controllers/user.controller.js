@@ -8,7 +8,7 @@ async function create(req, res) {
     console.log(req.body);
     const createdUser = await User.create(req.body);
     const token = createJWT(createdUser);
-    res.status(200).json({ token });
+    res.status(200).json(token);
   } catch (err) {
     console.error("Error creating user:", err); // Log the full error
     res.status(400).json({ error: err.message });
@@ -30,7 +30,7 @@ async function login(req, res) {
 
     // Create a JWT token
     const token = createJWT(user);
-    res.status(200).json({ token });
+    res.status(200).json(token);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
