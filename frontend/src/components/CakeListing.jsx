@@ -11,7 +11,13 @@ function CakeListing({ entries, addToCart }) {
             <p>Name: {entry.name}</p>
             <p>Description: {entry.description}</p>
             <p>Price: ${entry.price}</p>
-            <button onClick={() => addToCart(entry)}>Add to Cart</button>
+            <button
+              onClick={() => {
+                addToCart(entry);
+              }}
+            >
+              Add to Cart
+            </button>
           </li>
         ))}
       </ul>

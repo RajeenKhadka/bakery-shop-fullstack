@@ -1,9 +1,8 @@
-import mongoose from "mongoose";
 import Cart from "../models/cart.model.js";
-import Cake from "../models/cake.model.js";
 
+//============================================================================//
 // Get Cart for a User with populated cake data
-export const getCart = async (req, res) => {
+const getCart = async (req, res) => {
   const { userId } = req.params;
 
   // Ensure that the userId is a valid format (optional, for validation)
@@ -29,8 +28,9 @@ export const getCart = async (req, res) => {
   }
 };
 
+//============================================================================//
 // Add Item to Cart
-export const addToCart = async (req, res) => {
+const addToCart = async (req, res) => {
   const { userId } = req.params;
   const { cakeId, quantity } = req.body; // Extract cakeId and quantity from the request body
 
@@ -67,10 +67,78 @@ export const addToCart = async (req, res) => {
   }
 };
 
+//============================================================================//
 // Update Cart Item Quantity
-export const updateCart = async (req, res) => {};
+const updateCart = async (req, res) => {
+  const { userId, itemId } = req.params; // Extract userId and itemId from request params
+  const { quantity } = req.body; // Extract new quantity from the request body
 
+  console.log(userId, itemId, quantity);
+
+  try {
+    // Validate the quantity
+    if (quantity < 1) {
+      return res.status(400).json({ message: "Quantity must be at least 1" });
+    }
+
+    // Find the cart for the given user
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    // Find the item in the cart
+    const item = cart.items.find((item) => item._id.toString() === itemId);
+
+    if (!item) {
+      return res.status(404).json({ message: "Item not found in cart" });
+    }
+
+    // Update the item's quantity
+    item.quantity = quantity;
+
+    // Save the updated cart
+    await cart.save();
+
+    res.status(200).json({ message: "Cart updated successfully", cart });
+  } catch (err) {
+    console.error("Error updating cart:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+//============================================================================//
 // Remove Item from Cart
-export const removeItem = async (req, res) => {};
+const removeItem = async (req, res) => {
+  const { userId, itemId } = req.params;
+
+  try {
+    // Find the cart for the given user
+    const cart = await Cart.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    // Filter out the item with the specified itemId
+    const updatedItems = cart.items.filter(
+      (item) => item._id.toString() !== itemId
+    );
+
+    if (cart.items.length === updatedItems.length) {
+      return res.status(404).json({ message: "Item not found in cart" });
+    }
+
+    // Update the cart with the remaining items
+    cart.items = updatedItems;
+    await cart.save();
+
+    res.status(200).json({ message: "Item removed successfully", cart });
+  } catch (err) {
+    console.error("Error removing item from cart:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 export default { getCart, addToCart, updateCart, removeItem };

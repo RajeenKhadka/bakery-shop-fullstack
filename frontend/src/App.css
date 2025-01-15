@@ -74,7 +74,6 @@ html {
 }
 
 body,
-button,
 input,
 textarea {
   font-family: var(--body-font);
@@ -99,12 +98,6 @@ ul {
 
 a {
   text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  outline: none;
 }
 
 img {
@@ -145,44 +138,12 @@ img {
   gap: 1.5rem;
 }
 
-/* Buttons */
-.button {
-  display: inline-block;
-  background-color: var(--title-color);
-  color: var(--container-color);
-  padding: 1.25rem 2rem;
-  border-radius: 1rem;
-  font-weight: var(--font-normal);
-}
-
-.button:hover {
-  background-color: var(--title-color-dark);
-}
-
-.button__icon {
-  margin-left: var(--mb-0-25);
-}
-
-.button--flex {
-  display: inline-flex;
-  align-items: center;
-}
-
 /* Breakpoints */
 /* Large Devices */
 @media screen and (max-width: 992px) {
   .container {
     margin-left: var(--mb-1-5);
     margin-right: var(--mb-1-5);
-  }
-
-  .button {
-    padding: 1rem 1.75rem;
-  }
-
-  .button__icon {
-    width: 22px;
-    height: 22px;
   }
 }
 

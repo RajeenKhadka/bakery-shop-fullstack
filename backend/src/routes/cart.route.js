@@ -9,7 +9,7 @@ router.get("/:userId", cartController.getCart);
 router.post("/:userId", cartController.addToCart);
 
 // Update Cart Item Quantity
-router.put("/:userId", cartController.updateCart);
+router.put("/:userId/:itemId", cartController.updateCart);
 
 // Remove Item from Cart
 router.delete("/:userId/:itemId", cartController.removeItem);

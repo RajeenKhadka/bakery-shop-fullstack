@@ -24,14 +24,14 @@ function Nav() {
             </li>
 
             <li className="nav__item">
-              <Link className="nav__link" to="/order">
-                Order
+              <Link className="nav__link" to="/cart">
+                Cart
               </Link>
             </li>
 
             <li className="nav__item">
-              <Link className="nav__link" to="/cart">
-                Cart
+              <Link className="nav__link" to="/signup">
+                Login
               </Link>
             </li>
           </ul>
