@@ -16,12 +16,11 @@ export async function signUp(userData) {
 
 export async function logIn(credentials) {
   const token = await usersAPI.logIn(credentials);
-
-  //Persist the token
+  console.log("Token received:", token);
   localStorage.setItem("token", token);
-  console.log(token);
-
-  return getUser();
+  const user = getUser();
+  console.log("User parsed from token:", user);
+  return user;
 }
 
 export function getToken() {
@@ -42,9 +41,15 @@ export function getToken() {
 
 export function getUser() {
   const token = getToken();
-  //If there is a token, return the user in the payload, otherwise return null
-  //split the token, parse the second part of it, once you decode, access the user key in the object
-  return token ? JSON.parse(atob(token.split(".")[1])).user : null;
+  if (!token) return null;
+
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload.user || null; // Ensure `user` is returned
+  } catch (error) {
+    console.error("Error parsing token:", error);
+    return null;
+  }
 }
 
 export function logOut() {

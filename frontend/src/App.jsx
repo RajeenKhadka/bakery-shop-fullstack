@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route } from "react-router";
 import "./App.css";
 import Nav from "./components/NavBar/Nav";
@@ -5,40 +6,40 @@ import Home from "./pages/home/Home";
 import Menu from "./pages/menu/Menu";
 import Order from "./pages/order/Order";
 import Cart from "./pages/cart/Cart";
-import SignUpForm from "./components/AuthForms/SignUpForm.jsx";
+import AuthPage from "./pages/authpage/AuthPage.jsx";
 
 import { useCart } from "./utilities/cart-functions.js";
-
-const mockUser = {
-  userId: "mock12345", // Ensure this is valid
-};
-
-console.log("User ID being passed to Cart:", mockUser.userId);
+import { getUser } from "./utilities/users-services.js";
 
 function App() {
-  const { cart, addToCart, removeItem, updateQuantity } = useCart(
-    mockUser.userId
-  );
+  const [user, setUser] = useState(getUser());
+  const { cart, addToCart, removeItem, updateQuantity } = useCart(user?._id); // Handle potential null user
 
   return (
     <>
-      <Nav user={mockUser} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<Menu addToCart={addToCart} />} />
-        <Route path="/order" element={<Order user={mockUser} />} />
-        <Route
-          path="/cart"
-          element={
-            <Cart
-              userId={mockUser.userId} // Pass userId explicitly
-              removeItem={removeItem}
-              updateQuantity={updateQuantity}
+      {user ? (
+        <>
+          <Nav user={user} /> {/* Pass user to Nav for dynamic updates */}
+          <h1>Hello {user.name}</h1>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu addToCart={addToCart} />} />
+            <Route path="/order" element={<Order />} />
+            <Route
+              path="/cart"
+              element={
+                <Cart
+                  userId={user._id} // Pass userId explicitly
+                  removeItem={removeItem}
+                  updateQuantity={updateQuantity}
+                />
+              }
             />
-          }
-        />
-        <Route path="/signup" element={<SignUpForm />} />
-      </Routes>
+          </Routes>
+        </>
+      ) : (
+        <AuthPage setUser={setUser} />
+      )}
     </>
   );
 }

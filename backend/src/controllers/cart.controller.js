@@ -12,19 +12,21 @@ const getCart = async (req, res) => {
 
   try {
     // Query the Cart collection using userId and populate the cakeId field
-    const cart = await Cart.findOne({ userId }).populate(
+    let cart = await Cart.findOne({ userId }).populate(
       "items.cakeId",
       "name price"
     ); // Populate the cakeId with name and price
 
+    // If no cart found, create an empty cart for the user
     if (!cart) {
-      return res.status(404).json({ message: "Cart not found" });
+      cart = new Cart({ userId, items: [] });
+      await cart.save();
     }
 
-    res.status(200).json(cart); // Send back the cart with populated data
+    res.status(200).json(cart); // Send back the cart with populated data or an empty cart
   } catch (err) {
     console.error("Error fetching cart:", err);
-    res.status(400).json({ message: "Error fetching cart" });
+    res.status(500).json({ message: "Error fetching cart" });
   }
 };
 
@@ -33,6 +35,13 @@ const getCart = async (req, res) => {
 const addToCart = async (req, res) => {
   const { userId } = req.params;
   const { cakeId, quantity } = req.body; // Extract cakeId and quantity from the request body
+
+  // Validate inputs
+  if (!cakeId || !quantity || quantity < 1) {
+    return res
+      .status(400)
+      .json({ message: "Invalid input, quantity must be greater than 0" });
+  }
 
   try {
     let cart = await Cart.findOne({ userId });
@@ -63,7 +72,7 @@ const addToCart = async (req, res) => {
     res.status(200).json(cart); // Send the updated cart back to the frontend
   } catch (err) {
     console.error("Error adding item to cart:", err);
-    res.status(400).json({ message: "Error adding item to cart" });
+    res.status(500).json({ message: "Error adding item to cart" });
   }
 };
 
@@ -73,14 +82,12 @@ const updateCart = async (req, res) => {
   const { userId, itemId } = req.params; // Extract userId and itemId from request params
   const { quantity } = req.body; // Extract new quantity from the request body
 
-  console.log(userId, itemId, quantity);
+  // Validate inputs
+  if (!quantity || quantity < 1) {
+    return res.status(400).json({ message: "Quantity must be at least 1" });
+  }
 
   try {
-    // Validate the quantity
-    if (quantity < 1) {
-      return res.status(400).json({ message: "Quantity must be at least 1" });
-    }
-
     // Find the cart for the given user
     const cart = await Cart.findOne({ userId });
 

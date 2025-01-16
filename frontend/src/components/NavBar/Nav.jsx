@@ -1,7 +1,14 @@
 import { Link } from "react-router";
+import { logOut } from "../../utilities/users-services";
 import "./nav.css";
 
-function Nav() {
+function Nav(user) {
+  function handleLogOut() {
+    //delegate this functionality to users-services
+    logOut();
+    //Update state will also cause a rerender
+    setUser(null);
+  }
   return (
     <header className="header">
       <nav className="nav container">
@@ -30,8 +37,8 @@ function Nav() {
             </li>
 
             <li className="nav__item">
-              <Link className="nav__link" to="/signup">
-                Login
+              <Link className="nav__link" to="" onClick={handleLogOut}>
+                LogOut
               </Link>
             </li>
           </ul>

@@ -45,10 +45,16 @@ function createJWT(user) {
   }
 
   return jwt.sign(
-    // Data payload
-    { userId: user._id }, // Only pass userId for security purposes
-    process.env.JWT_SECRET, // Use the secret from the environment variable
-    { expiresIn: "24h" } // Set the expiration time for the token
+    // Include additional user information in the payload
+    {
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "24h" }
   );
 }
 
