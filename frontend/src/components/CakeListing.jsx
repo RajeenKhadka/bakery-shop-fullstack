@@ -1,11 +1,13 @@
-function CakeListing({ entries, addToCart }) {
+// components/CakeListing.jsx
+
+function CakeListing({ entries, addToCart, user }) {
   return (
     <div>
       <ul style={{ listStyleType: "none" }}>
         {entries.map((entry, index) => (
           <li key={index}>
             <div className="cake__img">
-              {/* Add a image tag here once you have a img url but for now using <p> to diplay text */}
+              {/* Add an image tag here once you have an img URL */}
               <p>{entry.imageUrl}</p>
             </div>
             <p>Name: {entry.name}</p>
@@ -13,10 +15,13 @@ function CakeListing({ entries, addToCart }) {
             <p>Price: ${entry.price}</p>
             <button
               onClick={() => {
-                addToCart(entry);
+                if (user) {
+                  addToCart(entry); // Add to cart only if the user is logged in
+                }
               }}
+              disabled={!user} // Disable the button if user is not logged in
             >
-              Add to Cart
+              Add to cart
             </button>
           </li>
         ))}

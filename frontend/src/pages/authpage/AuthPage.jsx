@@ -3,7 +3,7 @@ import LoginForm from "../../components/AuthForms/LoginForm";
 import SignUpForm from "../../components/AuthForms/SignUpForm";
 
 function AuthPage(props) {
-  const [signUp, setSignUp] = useState(true);
+  const [signUp, setSignUp] = useState(false);
 
   function togglePage() {
     setSignUp(!signUp);
@@ -11,12 +11,11 @@ function AuthPage(props) {
 
   return (
     <>
-      <h1>Sign up or login</h1>
       <>
         {signUp ? (
-          <LoginForm setUser={props.setUser} />
-        ) : (
           <SignUpForm setUser={props.setUser} />
+        ) : (
+          <LoginForm setUser={props.setUser} />
         )}
       </>
       <h2>{signUp ? "Or go here to login" : "Or go to signup"}</h2>

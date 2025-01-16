@@ -9,7 +9,6 @@ function Cart({ userId, removeItem, updateQuantity }) {
   // Utility to validate ObjectId
   const isValidObjectId = (id) => {
     console.log(`The id being passed is: ${id}`);
-    if (id === "mock12345") return true;
     return /^[a-fA-F0-9]{24}$/.test(id);
   };
 
@@ -50,6 +49,10 @@ function Cart({ userId, removeItem, updateQuantity }) {
   };
 
   useEffect(() => {
+    if (!userId) {
+      // Don't fetch cart if there's no userId
+      return;
+    }
     fetchCart(); // Fetch the cart when the component mounts or userId changes
   }, [userId, removeItem, updateQuantity]);
 

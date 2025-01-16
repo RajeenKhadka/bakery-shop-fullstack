@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import "./App.css";
 import Nav from "./components/NavBar/Nav";
@@ -17,29 +17,31 @@ function App() {
 
   return (
     <>
-      {user ? (
-        <>
-          <Nav user={user} /> {/* Pass user to Nav for dynamic updates */}
-          <h1>Hello {user.name}</h1>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu addToCart={addToCart} />} />
-            <Route path="/order" element={<Order />} />
-            <Route
-              path="/cart"
-              element={
-                <Cart
-                  userId={user._id} // Pass userId explicitly
-                  removeItem={removeItem}
-                  updateQuantity={updateQuantity}
-                />
-              }
+      <Nav user={user} setUser={setUser} />
+      <h1>Hello {user ? user.name + "!" : "!"}</h1>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/menu"
+          element={<Menu addToCart={addToCart} user={user} />} // Pass user to Menu
+        />
+        <Route path="/order" element={<Order />} />
+        <Route
+          path="/cart"
+          element={
+            <Cart
+              userId={user?._id} // Pass userId explicitly
+              cart={cart} // Pass cart state to the Cart component
+              removeItem={removeItem}
+              updateQuantity={updateQuantity}
             />
-          </Routes>
-        </>
-      ) : (
-        <AuthPage setUser={setUser} />
-      )}
+          }
+        />
+        <Route
+          path="/authentication"
+          element={<AuthPage setUser={setUser} />}
+        />
+      </Routes>
     </>
   );
 }

@@ -1,8 +1,10 @@
+// pages/menu/Menu.jsx
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import CakeListing from "../../components/CakeListing";
 
-function Menu({ addToCart }) {
+function Menu({ addToCart, user }) {
   const [entries, setEntries] = useState([]);
   const LOCAL_URL = "http://localhost:5052";
 
@@ -24,7 +26,7 @@ function Menu({ addToCart }) {
     <div>
       <h1>Menu</h1>
       {entries.length > 0 ? (
-        <CakeListing entries={entries} addToCart={addToCart} />
+        <CakeListing entries={entries} addToCart={addToCart} user={user} />
       ) : (
         <h1>No cake entries...</h1>
       )}

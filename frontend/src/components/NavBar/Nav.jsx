@@ -1,14 +1,17 @@
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { logOut } from "../../utilities/users-services";
 import "./nav.css";
 
-function Nav(user) {
+function Nav({ user, setUser }) {
+  const navigate = useNavigate(); // Initialize the navigate function
+
   function handleLogOut() {
-    //delegate this functionality to users-services
-    logOut();
-    //Update state will also cause a rerender
-    setUser(null);
+    logOut(); // Log the user out
+    setUser(null); // Clear the user state
+    navigate("/"); // Redirect to home page after logout
   }
+
   return (
     <header className="header">
       <nav className="nav container">
@@ -30,17 +33,26 @@ function Nav(user) {
               </Link>
             </li>
 
-            <li className="nav__item">
-              <Link className="nav__link" to="/cart">
-                Cart
-              </Link>
-            </li>
-
-            <li className="nav__item">
-              <Link className="nav__link" to="" onClick={handleLogOut}>
-                LogOut
-              </Link>
-            </li>
+            {user ? (
+              <>
+                <li className="nav__item">
+                  <Link className="nav__link" to="/cart">
+                    Cart
+                  </Link>
+                </li>
+                <li className="nav__item">
+                  <Link className="nav__link" to="/" onClick={handleLogOut}>
+                    LogOut
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li className="nav__item">
+                <Link className="nav__link" to="/authentication">
+                  SignIn
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </nav>

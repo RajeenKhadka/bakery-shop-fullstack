@@ -1,5 +1,4 @@
 import { useState } from "react";
-//adding in auth, I am importing SignUp from utilities
 import { signUp } from "../../utilities/users-services.js";
 
 function SignUpForm() {
@@ -39,16 +38,16 @@ function SignUpForm() {
 
   return (
     <>
-      <h1>Sign up to start using your own calendar</h1>
+      <h1>Sign up</h1>
       <div>
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <label>Display Name : </label>
+          <label>Name : </label>
           <input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Display Name"
+            placeholder="Enter Name"
             required
           />
           <br />

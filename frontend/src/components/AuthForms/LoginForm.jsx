@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import userService from "../../utilities/users-services.js";
 
 function LoginForm({ setUser }) {
@@ -8,6 +9,7 @@ function LoginForm({ setUser }) {
   });
 
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // Initialize the navigate function
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,14 +17,12 @@ function LoginForm({ setUser }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    // console.log(formData);
     const credentials = { ...formData };
-    console.log(credentials);
     try {
-      //The promise returned by the login service method will resolve to the user
-      //object included in the payload of the JWT
+      // The promise returned by the login service method will resolve to the user object
       const user = await userService.logIn(credentials);
-      setUser(user);
+      setUser(user); // Set user state after successful login
+      navigate("/"); // Redirect to the home page after login
     } catch (err) {
       setError("Login Failed - Try Again");
     }
@@ -30,6 +30,7 @@ function LoginForm({ setUser }) {
 
   return (
     <div>
+      <h1>Login</h1>
       <form autoComplete="off" onSubmit={handleSubmit}>
         <label>Email : </label>
         <input
