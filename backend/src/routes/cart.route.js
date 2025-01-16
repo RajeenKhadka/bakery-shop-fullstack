@@ -14,4 +14,7 @@ router.put("/:userId/:itemId", cartController.updateCart);
 // Remove Item from Cart
 router.delete("/:userId/:itemId", cartController.removeItem);
 
+//Remove the entire cart
+router.delete("/:userId", cartController.deleteEntireCart);
+
 export default router;

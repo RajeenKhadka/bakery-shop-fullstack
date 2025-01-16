@@ -3,10 +3,11 @@ import { useNavigate } from "react-router";
 import { logOut } from "../../utilities/users-services";
 import "./nav.css";
 
-function Nav({ user, setUser }) {
+function Nav({ user, setUser, deleteCart }) {
   const navigate = useNavigate(); // Initialize the navigate function
 
   function handleLogOut() {
+    deleteCart();
     logOut(); // Log the user out
     setUser(null); // Clear the user state
     navigate("/"); // Redirect to home page after logout

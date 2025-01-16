@@ -13,11 +13,13 @@ import { getUser } from "./utilities/users-services.js";
 
 function App() {
   const [user, setUser] = useState(getUser());
-  const { cart, addToCart, removeItem, updateQuantity } = useCart(user?._id); // Handle potential null user
+  const { cart, addToCart, removeItem, updateQuantity, deleteCart } = useCart(
+    user?._id
+  ); // Handle potential null user
 
   return (
     <>
-      <Nav user={user} setUser={setUser} />
+      <Nav user={user} setUser={setUser} deleteCart={deleteCart} />
       <h1>Hello {user ? user.name + "!" : "!"}</h1>
       <Routes>
         <Route path="/" element={<Home />} />
