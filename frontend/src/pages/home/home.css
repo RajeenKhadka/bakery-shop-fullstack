@@ -1,0 +1,80 @@
+/* Base styles for Home */
+.home {
+  background-color: var(--body-color);
+  padding: 0;
+}
+
+.home__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home__banner {
+  position: relative; /* Allow positioning of content over image */
+  width: 100%;
+  height: 80vh; /* Adjust height for banner size */
+  overflow: hidden; /* To make sure no part of the image goes outside */
+}
+
+.banner-img {
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  object-fit: cover; /* Ensure image covers the whole area */
+  object-position: center; /* Center the image */
+}
+
+.banner-content {
+  position: absolute; /* Position the content on top of the image */
+  top: 50%; /* Vertically center the content */
+  left: 50%; /* Horizontally center the content */
+  transform: translate(-50%, -50%); /* Center the content properly */
+  color: white; /* Text color for contrast */
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.home__title {
+  font-size: var(--big-font-size);
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); /* Add shadow for better text visibility */
+  color: white; /* Make sure the title text is white */
+}
+
+.home__cta {
+  background-color: white;
+  color: var(--title-color);
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: var(--h3-font-size);
+  cursor: pointer;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.home__cta:hover {
+  background-color: var(--title-color-dark);
+  color: var(--text-color);
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 992px) {
+  .home__title {
+    font-size: 2.5rem;
+  }
+
+  .home__description {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .home__title {
+    font-size: 2rem;
+  }
+
+  .home__cta {
+    padding: 0.5rem 1.5rem;
+  }
+}

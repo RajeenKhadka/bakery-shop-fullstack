@@ -1,45 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router";
 import axios from "axios";
+import "./cart.css";
 
-function Cart({ userId, removeItem, updateQuantity }) {
-  const [cart, setCart] = useState([]);
+function Cart({
+  cart,
+  userId,
+  removeItem,
+  updateQuantity,
+  fetchCart,
+  loading,
+}) {
   const [totalPrice, setTotalPrice] = useState(0);
-  const [loading, setLoading] = useState(true);
 
-  // Utility to validate ObjectId
-  const isValidObjectId = (id) => {
-    console.log(`The id being passed is: ${id}`);
-    return /^[a-fA-F0-9]{24}$/.test(id);
-  };
-
-  // Fetch cart data from the backend
-  const fetchCart = async () => {
-    if (!userId || !isValidObjectId(userId)) {
-      console.error("Invalid or missing userId:", userId);
-      setCart([]);
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true); // Start loading
-    try {
-      const response = await axios.get(
-        `http://localhost:5052/api/cart/${userId}`
-      );
-      if (response.data && response.data.items) {
-        setCart(response.data.items);
-      } else {
-        setCart([]);
-      }
-    } catch (err) {
-      console.error("Error fetching cart:", err);
-      setCart([]); // Handle error by resetting the cart
-    } finally {
-      setLoading(false); // Stop loading
-    }
-  };
-
-  // Recalculate the total price whenever the cart changes
   const calculateTotal = () => {
     return cart.reduce(
       (acc, item) =>
@@ -49,55 +22,76 @@ function Cart({ userId, removeItem, updateQuantity }) {
   };
 
   useEffect(() => {
-    if (!userId) {
-      // Don't fetch cart if there's no userId
-      return;
-    }
-    fetchCart(); // Fetch the cart when the component mounts or userId changes
-  }, [userId, removeItem, updateQuantity]);
+    if (!userId) return;
+    console.log(cart);
+    fetchCart();
+  }, []);
 
   useEffect(() => {
-    setTotalPrice(calculateTotal()); // Recalculate total when the cart updates
+    setTotalPrice(calculateTotal());
   }, [cart]);
 
-  // Filter out invalid or empty cart items before rendering
   const filteredCart = cart.filter(
     (item) => item?.cakeId && item?.cakeId?.price > 0 && item?.quantity > 0
   );
 
   return (
-    <div>
+    <div className="cart-container">
       <h1>Your Cart</h1>
       {loading ? (
-        <p>Loading your cart...</p>
+        <p className="cart-loading">Loading your cart...</p>
       ) : filteredCart.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p className="cart-empty">Your cart is empty.</p>
       ) : (
-        <ul>
+        <ul className="cart-items">
           {filteredCart.map((item) => (
-            <li key={`${item.cakeId._id}-${item._id}`}>
-              {item.cakeId?.name} - ${item.cakeId?.price} x {item.quantity}
-              <button onClick={() => removeItem(item._id)}>Remove</button>
-              <button
-                onClick={
-                  () => updateQuantity(item._id, item.quantity + 1) // Use item._id (itemId)
-                }
-              >
-                +1
-              </button>
-              <button
-                onClick={
-                  () => updateQuantity(item._id, item.quantity - 1) // Use item._id (itemId)
-                }
-                disabled={item.quantity <= 1}
-              >
-                -1
-              </button>
+            <li key={`${item.cakeId._id}-${item._id}`} className="cart-item">
+              <div className="cart-item-details">
+                <img
+                  src={item.cakeId?.imageUrl}
+                  alt={item.cakeId?.name}
+                  className="cart-item-img"
+                />
+
+                <span className="cart-item-name">{item.cakeId?.name}</span>
+
+                <span className="cart-item-quantity">
+                  ${item.cakeId?.price} x {item.quantity}
+                </span>
+              </div>
+              <div className="cart-item-buttons">
+                <button
+                  onClick={() => removeItem(item._id)}
+                  className="cart-item-btn remove-btn"
+                >
+                  Remove
+                </button>
+                <button
+                  onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                  className="cart-item-btn increase-btn"
+                >
+                  +
+                </button>
+                <button
+                  onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                  className="cart-item-btn decrease-btn"
+                  disabled={item.quantity <= 1}
+                >
+                  -
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       )}
-      <h3>Total: ${totalPrice.toFixed(2)}</h3>
+      <div className="cart-total">
+        Total: <span>${totalPrice.toFixed(2)}</span>
+      </div>
+      <div className="proceed-btn-container">
+        <Link to="/checkout" state={{ cart: filteredCart, totalPrice }}>
+          <button className="proceed-btn">Proceed to checkout</button>
+        </Link>
+      </div>
     </div>
   );
 }

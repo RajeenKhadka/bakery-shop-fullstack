@@ -3,6 +3,32 @@ import axios from "axios";
 
 export const useCart = (userId) => {
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id);
+
+  const fetchCart = async () => {
+    if (!userId || !isValidObjectId(userId)) {
+      console.error("Invalid or missing userId:", userId);
+      setCart([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:5052/api/cart/${userId}`
+      );
+      setCart(response.data?.items || []);
+      console.log("Fetching:" + cart);
+    } catch (err) {
+      console.error("Error fetching cart:", err);
+      setCart([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Function to add items to the cart
   const addToCart = async (cake) => {
@@ -42,9 +68,7 @@ export const useCart = (userId) => {
 
       // If successful, update the cart state by filtering out the removed item
       setCart((prevCart) => prevCart.filter((item) => item._id !== itemId));
-
-      // Refresh the page after the item is removed
-      window.location.reload(); // Reload the page to reflect the changes
+      // fetchCart();
 
       console.log(response.data.message); // Log success message
     } catch (err) {
@@ -123,5 +147,13 @@ export const useCart = (userId) => {
     }
   };
 
-  return { cart, addToCart, removeItem, updateQuantity, deleteCart };
+  return {
+    cart,
+    fetchCart,
+    loading,
+    addToCart,
+    removeItem,
+    updateQuantity,
+    deleteCart,
+  };
 };

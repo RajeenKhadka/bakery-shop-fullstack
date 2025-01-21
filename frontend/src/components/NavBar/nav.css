@@ -20,6 +20,15 @@
   font-weight: var(--font-medium);
 }
 
+.nav__icon__user {
+  color: var(--title-color);
+  font-weight: var(--font-bold);
+}
+
+.nav__item .nav__icon__user {
+  font-weight: var(--font-medium);
+}
+
 .nav__list {
   display: flex;
   column-gap: 2rem;
@@ -27,4 +36,8 @@
 
 .nav__link {
   color: var(--title-color-dark);
+}
+
+.nav__link:hover {
+  text-decoration: underline;
 }

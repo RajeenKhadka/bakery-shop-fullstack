@@ -8,6 +8,10 @@
   /*Color mode HSL(hue, saturation, lightness)*/
   --hue: 0;
   --sat: 0%;
+  --primary-color: #000000; /* Black for primary action */
+  --accent-color: #ffffff; /* White for hover effect */
+  --disabled-bg-color: #e0e0e0; /* Light gray for disabled buttons */
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
   --title-color: hsl(var(--hue), var(--sat), 20%);
   --title-color-dark: hsl(var(--hue), var(--sat), 0%);
   --text-color: hsl(var(--hue), var(--sat), 46%);
@@ -128,7 +132,7 @@ img {
 
 /* Layout */
 .container {
-  max-width: 968px;
+  max-width: 1500px;
   margin-left: auto;
   margin-right: auto;
 }

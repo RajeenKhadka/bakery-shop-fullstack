@@ -1,3 +1,4 @@
+import "./auth.css";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import userService from "../../utilities/users-services.js";
@@ -9,7 +10,7 @@ function LoginForm({ setUser }) {
   });
 
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,22 +18,20 @@ function LoginForm({ setUser }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const credentials = { ...formData };
     try {
-      // The promise returned by the login service method will resolve to the user object
-      const user = await userService.logIn(credentials);
-      setUser(user); // Set user state after successful login
-      navigate("/"); // Redirect to the home page after login
+      const user = await userService.logIn({ ...formData });
+      setUser(user);
+      navigate("/");
     } catch (err) {
       setError("Login Failed - Try Again");
     }
   }
 
   return (
-    <div>
+    <div className="auth-container">
       <h1>Login</h1>
       <form autoComplete="off" onSubmit={handleSubmit}>
-        <label>Email : </label>
+        <label>Email:</label>
         <input
           type="email"
           name="email"
@@ -41,20 +40,18 @@ function LoginForm({ setUser }) {
           placeholder="Email address"
           required
         />
-        <br />
-        <label>Password : </label>
+        <label>Password:</label>
         <input
           type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
-          placeholder="password"
+          placeholder="Password"
           required
         />
-        <br />
         <button type="submit">Log In</button>
       </form>
-      <p>{error}</p>
+      {error && <p>{error}</p>}
     </div>
   );
 }

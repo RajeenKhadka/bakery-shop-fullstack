@@ -1,0 +1,27 @@
+/* Menu Container */
+.menu {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--container-color);
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Menu Title */
+.menu__title {
+  font-size: 2.5rem;
+  color: var(--title-color);
+  margin-bottom: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Empty State Message */
+.menu__empty {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  font-style: italic;
+  margin-top: 2rem;
+}

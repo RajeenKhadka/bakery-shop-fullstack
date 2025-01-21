@@ -14,8 +14,9 @@ const getCart = async (req, res) => {
     // Query the Cart collection using userId and populate the cakeId field
     let cart = await Cart.findOne({ userId }).populate(
       "items.cakeId",
-      "name price"
+      "name price imageUrl"
     ); // Populate the cakeId with name and price
+    console.log(cart);
 
     // If no cart found, create an empty cart for the user
     if (!cart) {

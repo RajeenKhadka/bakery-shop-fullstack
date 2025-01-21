@@ -16,7 +16,7 @@ function Nav({ user, setUser, deleteCart }) {
   return (
     <header className="header">
       <nav className="nav container">
-        <Link className="nav__link" to="/">
+        <Link className="nav__logo" to="/">
           @Maya Cake Shop
         </Link>
         <div>
@@ -50,7 +50,7 @@ function Nav({ user, setUser, deleteCart }) {
             ) : (
               <li className="nav__item">
                 <Link className="nav__link" to="/authentication">
-                  SignIn
+                  <i className="uil uil-user nav__icon__user"></i>
                 </Link>
               </li>
             )}

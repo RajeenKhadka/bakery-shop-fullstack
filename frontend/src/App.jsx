@@ -4,7 +4,7 @@ import "./App.css";
 import Nav from "./components/NavBar/Nav";
 import Home from "./pages/home/Home";
 import Menu from "./pages/menu/Menu";
-import Order from "./pages/order/Order";
+import Checkout from "./pages/checkout/Checkout.jsx";
 import Cart from "./pages/cart/Cart";
 import AuthPage from "./pages/authpage/AuthPage.jsx";
 
@@ -13,9 +13,15 @@ import { getUser } from "./utilities/users-services.js";
 
 function App() {
   const [user, setUser] = useState(getUser());
-  const { cart, addToCart, removeItem, updateQuantity, deleteCart } = useCart(
-    user?._id
-  ); // Handle potential null user
+  const {
+    cart,
+    fetchCart,
+    loading,
+    addToCart,
+    removeItem,
+    updateQuantity,
+    deleteCart,
+  } = useCart(user?._id); // Handle potential null user
 
   return (
     <>
@@ -27,7 +33,8 @@ function App() {
           path="/menu"
           element={<Menu addToCart={addToCart} user={user} />} // Pass user to Menu
         />
-        <Route path="/order" element={<Order />} />
+
+        <Route path="/checkout" element={<Checkout user={user} />} />
         <Route
           path="/cart"
           element={
@@ -36,6 +43,8 @@ function App() {
               cart={cart} // Pass cart state to the Cart component
               removeItem={removeItem}
               updateQuantity={updateQuantity}
+              fetchCart={fetchCart}
+              loading={loading}
             />
           }
         />
