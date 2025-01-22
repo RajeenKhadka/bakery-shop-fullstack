@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 import bcrypt from "bcrypt";
-import Cart from "./cart.model.js"; // Import Cart model to reference it
 
 const SALT_ROUNDS = 6;
 

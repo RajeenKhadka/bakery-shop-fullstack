@@ -23,7 +23,6 @@ function Cart({
 
   useEffect(() => {
     if (!userId) return;
-    console.log(cart);
     fetchCart();
   }, []);
 

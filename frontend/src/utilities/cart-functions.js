@@ -21,7 +21,6 @@ export const useCart = (userId) => {
         `http://localhost:5052/api/cart/${userId}`
       );
       setCart(response.data?.items || []);
-      console.log("Fetching:" + cart);
     } catch (err) {
       console.error("Error fetching cart:", err);
       setCart([]);

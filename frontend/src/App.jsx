@@ -7,7 +7,6 @@ import Menu from "./pages/menu/Menu";
 import Checkout from "./pages/checkout/Checkout.jsx";
 import Cart from "./pages/cart/Cart";
 import AuthPage from "./pages/authpage/AuthPage.jsx";
-
 import { useCart } from "./utilities/cart-functions.js";
 import { getUser } from "./utilities/users-services.js";
 

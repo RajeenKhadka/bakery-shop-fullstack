@@ -11,6 +11,7 @@ import db from "./db/conn.js";
 import cakeEntries from "./routes/cake.route.js";
 import cartRoutes from "./routes/cart.route.js"; // Import the cart routes
 import users from "./routes/user.route.js";
+import orders from "./routes/order.route.js";
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
 app.use("/api/cakes", cakeEntries); // Cakes route
 app.use("/api/cart", cartRoutes); // Cart route
 app.use("/api/users", users); //User Route
+app.use("/api/orders", orders);
 
 // Default, catch-all routes (optional)
 app.get("/*", (req, res) => {

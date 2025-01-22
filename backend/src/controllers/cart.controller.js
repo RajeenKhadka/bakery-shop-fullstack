@@ -169,4 +169,10 @@ const deleteEntireCart = async (req, res) => {
   }
 };
 
-export default { getCart, addToCart, updateCart, removeItem, deleteEntireCart };
+export default {
+  getCart,
+  addToCart,
+  updateCart,
+  removeItem,
+  deleteEntireCart,
+};
