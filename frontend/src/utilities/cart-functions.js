@@ -18,7 +18,7 @@ export const useCart = (userId) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:5052/api/cart/${userId}`
+        `https://bakery-shop-fullstack.onrender.com/api/cart/${userId}`
       );
       setCart(response.data?.items || []);
     } catch (err) {
@@ -45,10 +45,13 @@ export const useCart = (userId) => {
         setCart(updatedCart);
 
         // Ensure this structure matches what the backend expects
-        await axios.post(`http://localhost:5052/api/cart/${userId}`, {
-          cakeId: cake._id, // The cakeId being sent here
-          quantity: 1, // The quantity being sent here
-        });
+        await axios.post(
+          `https://bakery-shop-fullstack.onrender.com/api/cart/${userId}`,
+          {
+            cakeId: cake._id, // The cakeId being sent here
+            quantity: 1, // The quantity being sent here
+          }
+        );
 
         alert(`${cake.name} added to cart!`); // Show alert when a new item is added
       }
@@ -62,7 +65,7 @@ export const useCart = (userId) => {
     try {
       // Call the backend to remove the item
       const response = await axios.delete(
-        `http://localhost:5052/api/cart/${userId}/${itemId}`
+        `https://bakery-shop-fullstack.onrender.com/api/cart/${userId}/${itemId}`
       );
 
       // If successful, update the cart state by filtering out the removed item
@@ -85,7 +88,7 @@ export const useCart = (userId) => {
     try {
       console.log("Sending update request for:", userId, itemId, newQuantity);
       const response = await axios.put(
-        `http://localhost:5052/api/cart/${userId}/${itemId}`, // Using itemId in the URL
+        `https://bakery-shop-fullstack.onrender.com/api/cart/${userId}/${itemId}`, // Using itemId in the URL
         { quantity: newQuantity } // Payload
       );
 
@@ -115,7 +118,7 @@ export const useCart = (userId) => {
         console.log(cart);
         // If the cart is empty, delete it automatically without asking
         const response = await axios.delete(
-          `http://localhost:5052/api/cart/${userId}`
+          `https://bakery-shop-fullstack.onrender.com/api/cart/${userId}`
         );
         if (response.status === 200) {
           setCart([]); // Clear the cart state
@@ -133,7 +136,7 @@ export const useCart = (userId) => {
 
       // Proceed to delete the cart if the user confirms
       const response = await axios.delete(
-        `http://localhost:5052/api/cart/${userId}`
+        `https://bakery-shop-fullstack.onrender.com/api/cart/${userId}`
       );
 
       if (response.status === 200) {

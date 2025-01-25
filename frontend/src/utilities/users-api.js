@@ -1,7 +1,7 @@
 //users-api.js
 
 //set up the base url for the route
-const LOCAL_URL = "http://localhost:5052";
+const LOCAL_URL = "https://bakery-shop-fullstack.onrender.com";
 const API_URL = "/api/users";
 const URL = LOCAL_URL + API_URL;
 

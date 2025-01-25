@@ -5,7 +5,7 @@ import CakeListing from "../../components/CakeListing/CakeListing";
 
 function Menu({ addToCart, user }) {
   const [entries, setEntries] = useState([]);
-  const LOCAL_URL = "http://localhost:5052";
+  const LOCAL_URL = "https://bakery-shop-fullstack.onrender.com";
 
   const getEntries = async () => {
     try {

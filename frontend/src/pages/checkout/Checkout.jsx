@@ -54,7 +54,10 @@ function Checkout({ user }) {
           date: new Date().toISOString(),
         };
 
-        await axios.post("http://localhost:5052/api/orders/create", orderData);
+        await axios.post(
+          "https://bakery-shop-fullstack.onrender.com/api/orders/create",
+          orderData
+        );
         setLoading(false);
         alert(
           "Your order has been placed. Confirmation has been sent to your email."
